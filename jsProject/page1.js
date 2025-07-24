@@ -107,7 +107,7 @@ function createHistoryChart() {
       datasets: [{
         label: 'Account Balance',
         data: historicalData.data,
-        backgroundColor: 'purple'
+        backgroundColor: 'rgba(47, 95, 107, 0.67)',
       }]
     }
   });

@@ -18,22 +18,23 @@
 
     /* Header Style */
     header {
-      background-color: #007bff;
+      background-color: #162e4e;
       color: white;
       text-align: center;
-      padding: 20px 0;
-      font-size: 2.5em;
+      padding: 30px 0;
+      font-size: 3.5em;
       font-weight: bold;
     }
 
     .container {
+      /* background-color: #2b66b832; */
       display: flex;
       width: 100%;
       height: 100%;
     }
 
     .sidebar-left {
-      width: 200px;
+      width: 250px;
       background-color: #f4f4f4;
       padding: 20px;
       box-sizing: border-box;
@@ -42,8 +43,8 @@
     .sidebar-left button {
       display: block;
       width: 100%;
-      padding: 10px;
-      margin: 10px 0;
+      padding: 20px;
+      margin: 20px 0;
       background-color: #007bff;
       color: white;
       border: none;
@@ -68,6 +69,33 @@
       box-sizing: border-box;
       overflow-y: auto;
     }
+    .stock-list{
+      max-width: 150 px;
+      overflow-y: auto;
+      margin-top: 10px;
+      border: 1 px solid #ccc;
+      padding: 10px;
+      background-color:#fff;
+       border-radius: 5px;
+    }
+    .stock-item {
+      padding: 5px 0;
+      border-bottom: 1px dashed #ccc;
+      font-size: 14px;
+    }
+    #stockBtn, #bondsBtn, #goldBtn, #cashBtn {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #878a8e;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #stockBtn:hover, #bondsBtn:hover, #goldBtn:hover, #cashBtn:hover {
+      background-color: #313436;
+    }
+
 
     #chartContainer, #pieChartContainer, #historicalData {
       margin-bottom: 20px;
@@ -83,8 +111,16 @@
   <div class="container">
     <!-- Left Sidebar -->
     <div class="sidebar-left">
-      <button id="stockBtn">Stocks</button>
-      <button id="bondsBtn">Bonds</button>
+      <button id="stockBtn" style="border-radius: 50px / 100px; font-size: 20px;">Stocks</button>
+       <div class="stock-list">
+       <div class="stock-item">AAPL - $193.50</div>
+       <div class="stock-item">GOOG - $2830.00</div>
+       <div class="stock-item">TSLA - $1050.20</div>
+       <div class="stock-item">AMZN - $3350.75</div>
+       <div class="stock-item">MSFT - $289.30</div>
+      <!-- 可继续添加更多 -->
+    </div>
+      <button id="bondsBtn" style="border-radius: 50px / 100px; font-size: 20px;">Bonds</button>
       <!-- <button id="goldBtn">Gold</button>
       <button id="cashBtn">Cash</button> -->
     </div>
