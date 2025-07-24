@@ -2,12 +2,23 @@ document.getElementById('stockBtn').addEventListener('click', () => showStockDat
 document.getElementById('bondsBtn').addEventListener('click', () => showBondsData());
 // document.getElementById('goldBtn').addEventListener('click', () => showGoldData());
 // document.getElementById('cashBtn').addEventListener('click', () => showCashData());
+document.getElementById('dailyBtn').addEventListener('click', () => switchChart('daily'));
+document.getElementById('weeklyBtn').addEventListener('click', () => switchChart('weekly'));
+document.getElementById('monthlyBtn').addEventListener('click', () => switchChart('monthly'));
 
 let dailyChart, historyChart, pieChart;
 
-const stockData = {
+const stockData_daily = {
   labels: ['2025-07-01', '2025-07-02', '2025-07-03', '2025-07-04', '2025-07-05'], // Example dates
   data: [150, 155, 160, 158, 162] // Example stock prices
+};
+const stockData_weekly = {
+  labels: ['2025-06-01', '2025-06-08', '2025-06-15', '2025-06-22', '2025-07-05'], // Example dates
+  data: [150, 135, 169, 128, 152] // Example stock prices
+};
+const stockData_monthly = {
+  labels: ['2025-03-05', '2025-04-02', '2025-05-03', '2025-06-04', '2025-07-05'], // Example dates
+  data: [120, 155, 140, 138, 169] // Example stock prices
 };
 
 const cashData = {
@@ -25,10 +36,10 @@ function createDailyChart() {
   dailyChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: stockData.labels,
+      labels: stockData_daily.labels,
       datasets: [{
         label: 'Stock Price',
-        data: stockData.data,
+        data: stockData_daily.data,
         borderColor: 'blue',
         backgroundColor: 'transparent',
         fill: false,
@@ -38,6 +49,41 @@ function createDailyChart() {
   });
 }
 
+function createWeeklyChart() {
+  const ctx = document.getElementById('dailyChart').getContext('2d');
+  dailyChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: stockData_weekly.labels,
+      datasets: [{
+        label: 'Stock Price',
+        data: stockData_weekly.data,
+        borderColor: 'blue',
+        backgroundColor: 'transparent',
+        fill: false,
+        tension: 0.1
+      }]
+    }
+  });
+}
+
+function createMonthlyChart() {
+  const ctx = document.getElementById('dailyChart').getContext('2d');
+  dailyChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: stockData_monthly.labels,
+      datasets: [{
+        label: 'Stock Price',
+        data: stockData_monthly.data,
+        borderColor: 'blue',
+        backgroundColor: 'transparent',
+        fill: false,
+        tension: 0.1
+      }]
+    }
+  });
+}
 function createPieChart() {
   const ctx = document.getElementById('pieChart').getContext('2d');
   pieChart = new Chart(ctx, {
@@ -83,6 +129,19 @@ function showGoldData() {
 
 function showCashData() {
   // Implement the logic for cash data visualization
+}
+
+function switchChart(type) {
+  if (dailyChart) {
+    dailyChart.destroy();
+  }
+  if (type === 'daily') {
+    createDailyChart();
+  } else if (type === 'weekly') {
+    createWeeklyChart();
+  } else if (type === 'monthly') {
+    createMonthlyChart();
+  }
 }
 
 showStockData(); // Show stock data by default
