@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investment Portfolio Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      flex-direction: column; /* Change direction to column for header and body */
+    }
+
+    /* Header Style */
+    header {
+      background-color: #007bff;
+      color: white;
+      text-align: center;
+      padding: 20px 0;
+      font-size: 2.5em;
+      font-weight: bold;
+    }
+
+    .container {
+      display: flex;
+      width: 100%;
+      height: 100%;
+    }
+
+    .sidebar-left {
+      width: 200px;
+      background-color: #f4f4f4;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .sidebar-left button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .sidebar-left button:hover {
+      background-color: #0056b3;
+    }
+
+    .main-content {
+      flex-grow: 1;
+      padding: 20px;
+      overflow: auto;
+      height: calc(100vh - 100px); /* Adjust height to account for header */
+    }
+
+    .sidebar-right {
+      width: 250px;
+      background-color: #f4f4f4;
+      padding: 20px;
+      box-sizing: border-box;
+      overflow-y: auto;
+    }
+
+    #chartContainer, #pieChartContainer, #historicalData {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    Investment Portfolio Dashboard
+  </header>
+
+  <div class="container">
+    <!-- Left Sidebar -->
+    <div class="sidebar-left">
+      <button id="stockBtn">Stocks</button>
+      <button id="bondsBtn">Bonds</button>
+      <!-- <button id="goldBtn">Gold</button>
+      <button id="cashBtn">Cash</button> -->
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <div id="chartContainer">
+        <canvas id="dailyChart"></canvas>
+      </div>
+      <!-- <div id="pieChartContainer">
+        <canvas id="pieChart"></canvas>
+      </div> -->
+      <div id="historicalData">
+        <canvas id="historyChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Right Sidebar -->
+    <div class="sidebar-right">
+      <h3>Additional Information</h3>
+        <div id="pieChartContainer">
+        <canvas id="pieChart"></canvas>
+      </div>
+      <p>Some extra content or detailed information can go here. </p>
+    </div>
+  </div>
+
+  <script src="page1.js"></script>
+</body>
+</html>
