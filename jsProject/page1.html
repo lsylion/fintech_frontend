@@ -27,10 +27,11 @@
     }
 
     .container {
-      /* background-color: #2b66b832; */
+      /*background-color: #2b66b832;*/
       display: flex;
       width: 100%;
       height: 100%;
+
     }
 
     .sidebar-left {
@@ -60,6 +61,43 @@
       padding: 20px;
       overflow: auto;
       height: calc(100vh - 100px); /* Adjust height to account for header */
+      display: flex;
+      flex-direction: column;
+
+      /*display: grid;*/
+      /*grid-template-rows: 55% 45%; !* 图表和按钮占55%，卡片占45% *!*/
+      /*grid-template-areas:*/
+      /*  "chart"*/
+      /*  "cards";*/
+      /*gap: 20px;*/
+      /*padding: 20px;*/
+      /*overflow: hidden;*/
+    }
+    .main-content button {
+      margin: 20px ;
+    }
+    /* 确保图表容器不会溢出 */
+    .chart-responsive {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 350px; /* 固定高度 */
+      min-height: 200px;
+      max-height: 50vh;
+      margin-bottom: 20px;
+    }
+
+    /* 按钮容器独立布局 */
+    .chart-buttons {
+      text-align: center;
+      margin: 10px 0;
+      flex-shrink: 0; /* 防止按钮区域被压缩 */
+    }
+
+    /* 确保所有canvas有相同的布局规则 */
+    .chart-container canvas {
+      width: 100% !important;
+      height: 100% !important;
     }
 
     .sidebar-right {
@@ -97,8 +135,104 @@
     }
 
 
-    #chartContainer, #pieChartContainer, #historicalData {
-      margin-bottom: 20px;
+    /*#chartContainer, #pieChartContainer, #historicalData {*/
+    /*  margin-bottom: 20px;*/
+    /*}*/
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      width: 100%;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 1024px) {
+      .cards-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media (max-width: 600px) {
+      .cards-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #34495e;
+    }
+    .profit-indicator {
+      font-weight: 700;
+      font-size: 1.2rem;
+      padding: 3px 8px;
+      border-radius: 5px;
+    }
+    .loss {
+      color: #27ae60;
+      background-color: rgba(39, 174, 96, 0.15);
+    }
+    .profit {
+      color: #e74c3c;
+      background-color: rgba(231, 76, 60, 0.15);
+    }
+    .card-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .balance-large {
+      font-size: 2.1rem;
+      font-weight: 700;
+      margin-bottom: 5px;
+      letter-spacing: -0.5px;
+      color: #2c3e50;
+    }
+    .balance-small {
+      font-size: 1.1rem;
+      color: #7f8c8d;
+      font-weight: 500;
+    }
+    .card:nth-child(1) {
+      background-color: rgba(255, 178, 89, 0.15);
+      border-top: 4px solid #FFB259;
+    }
+    .card:nth-child(2) {
+      background-color: rgba(173, 126, 201, 0.15);
+      border-top: 4px solid #AD7EC9;
+    }
+    .card:nth-child(3) {
+      background-color: rgba(122, 141, 157, 0.15);
+      border-top: 4px solid #7A8D9D;
+    }
+    .card:nth-child(4) {
+      background-color: rgba(255, 155, 192, 0.15);
+      border-top: 4px solid #FF9BC0;
+    }
+    @media (max-width: 768px) {
+      .cards-container {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
     }
   </style>
 </head>
@@ -127,20 +261,71 @@
 
     <!-- Main Content Area -->
     <div class="main-content">
-      
-      <div style="margin-bottom: 20px; text-align: center;">
-        <button id="dailyBtn">日</button>
-        <button id="weeklyBtn">周</button>
-        <button id="monthlyBtn">月</button>
+
+
+      <!-- change to 4 card -->
+<!--      <div id="historicalData">-->
+<!--        <canvas id="historyChart"></canvas>-->
+<!--      </div>-->
+      <!-- 资产卡片区 -->
+      <div class="cards-container">
+        <!-- 总资产卡片 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">总资产</h2>
+            <div class="profit-indicator profit">+</div>
+          </div>
+          <div class="card-content">
+            <div class="balance-large">€2,14,595</div>
+            <div class="balance-small">$2,14,595</div>
+          </div>
+        </div>
+        <!-- 总盈亏卡片 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">总盈亏</h2>
+            <div class="profit-indicator profit">+</div>
+          </div>
+          <div class="card-content">
+            <div class="balance-large">€2,14,595</div>
+            <div class="balance-small">$2,14,595</div>
+          </div>
+        </div>
+        <!-- 每日盈余卡片 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">每日盈余</h2>
+            <div class="profit-indicator loss">-</div>
+          </div>
+          <div class="card-content">
+            <div class="balance-large">€2,14,595</div>
+            <div class="balance-small">$2,14,595</div>
+          </div>
+        </div>
+        <!-- 总市值卡片 -->
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">总市值</h2>
+            <div class="profit-indicator profit">+</div>
+          </div>
+          <div class="card-content">
+            <div class="balance-large">€2,14,595</div>
+            <div class="balance-small">+1.123%</div>
+          </div>
+        </div>
       </div>
-      <div id="chartContainer">
-        <canvas id="dailyChart"></canvas>
-      </div>
-      <!-- <div id="pieChartContainer">
-        <canvas id="pieChart"></canvas>
-      </div> -->
-      <div id="historicalData">
-        <canvas id="historyChart"></canvas>
+      <!-- 资产卡片区结束 -->
+      <div class="chart-responsive" style="display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 350px; min-height: 200px; max-height: 50vh; margin-bottom: 20px;">
+        <div style="text-align: center; margin-bottom: 10px;">
+          <button id="dailyBtn">日</button>
+          <button id="weeklyBtn">周</button>
+          <button id="monthlyBtn">月</button>
+        </div>
+        <div style="flex: 1 1 0; position: relative; width: 100%; height: 100%;">
+          <canvas id="dailyChart" style="width:100%!important; height:100%!important; display:block;"></canvas>
+          <canvas id="weeklyChart" style="width:100%!important; height:100%!important; display:none;"></canvas>
+          <canvas id="monthlyChart" style="width:100%!important; height:100%!important; display:none;"></canvas>
+        </div>
       </div>
     </div>
 
