@@ -213,6 +213,7 @@ function showStockData() {
 }
 
 function showBondsData() {
+  createDailyChart();
   // Implement the logic for bonds data visualization
 }
 
