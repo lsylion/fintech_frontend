@@ -280,6 +280,7 @@ function createPieChart() {
   });
 }
 
+/*
 function createHistoryChart() {
   const ctx = document.getElementById('historyChart').getContext('2d');
   historyChart = new Chart(ctx, {
@@ -294,6 +295,7 @@ function createHistoryChart() {
     }
   });
 }
+*/
 
 function createAssetHistoryChart() {
   const ctx = document.getElementById('dailyChart').getContext('2d');
