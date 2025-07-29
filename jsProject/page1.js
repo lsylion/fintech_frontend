@@ -50,7 +50,7 @@ document.getElementById('monthlyBtn').addEventListener('click', () => switchChar
       `;
       updateHistory7DaysChart(history7DaysData[code]);
     } else {
-      searchResult.innerText = "找不到该股票信息";
+      searchResult.innerText = "Cannot find the information of this stock";
       updateHistory7DaysChart(null);
   //     if (!data) {
   // ctx.clearRect(0, 0, 400, 200); // 或 ctx.canvas.getContext("2d").clearRect(...)
@@ -99,7 +99,7 @@ function updateHistory7DaysChart(stockCode) {
     data: {
       labels: data.labels,
       datasets: [{
-        label: `${stockCode} 价格`,
+        label: `${stockCode} Price`,
         data: data.prices,
         borderColor: 'blue',
         backgroundColor: 'rgba(0,123,255,0.3)',
@@ -185,7 +185,7 @@ function createChart(type, data) {
       labels: data.labels,
       datasets: [
         {
-          label: '最高价',
+          label: 'High Price',
           data: data.high,
           borderColor: 'grey',
           backgroundColor: 'rgba(61,52,39,0.1)',
@@ -193,7 +193,7 @@ function createChart(type, data) {
           tension: 0.1
         },
         {
-          label: '收盘价',
+          label: 'Close Price',
           data: data.close,
           borderColor: 'blue',
           backgroundColor: 'rgba(0,123,255,0.1)',
@@ -306,7 +306,7 @@ function createAssetHistoryChart() {
       labels: assetHistoryData.labels,
       datasets: [
         {
-          label: '历史资产走势',
+          label: 'Historical asset trends',
           data: assetHistoryData.values,
           borderColor: 'green',
           backgroundColor: 'rgba(39, 174, 96, 0.15)',
