@@ -13,54 +13,6 @@ document.getElementById('monthlyBtn').addEventListener('click', () => switchChar
 //   stockSearchInput.focus();
 // });
 
-
-
- // --------- 搜索功能实现 ----------
-    const stockSearchInput = document.getElementById('stockSearchInput');
-    const searchResult = document.getElementById('searchResult');
-     // 模拟股票详细信息数据（实际可以替换成接口请求）
-    const stockDetailsMap = {
-      "WWW": {
-        name: "World Wide Web Corp",
-        price: "$123.45",
-        change: "+1.23%",
-        marketCap: "10B",
-        description: "Leading tech company in web technologies."
-      },
-      "AAPL": {
-        name: "Apple Inc.",
-        price: "$193.50",
-        change: "+0.56%",
-        marketCap: "2.5T",
-        description: "Technology giant."
-      },
-      // 你可以添加更多模拟股票信息
-    };
-       stockSearchInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    const code = stockSearchInput.value.trim().toUpperCase();
-    if (code && stockDetailsMap[code]) {
-      const d = stockDetailsMap[code];
-      searchResult.innerHTML = `
-        <strong>${d.name}</strong><br />
-        Price: ${d.price}<br />
-        Change: ${d.change}<br />
-        Market Cap: ${d.marketCap}<br />
-        <em>${d.description}</em>
-      `;
-      updateHistory7DaysChart(history7DaysData[code]);
-    } else {
-      searchResult.innerText = "Cannot find the information of this stock";
-      updateHistory7DaysChart(null);
-  //     if (!data) {
-  // ctx.clearRect(0, 0, 400, 200); // 或 ctx.canvas.getContext("2d").clearRect(...)
-  // return;
-// }
-    }
-  }
-});
-
-
     let history7DaysChart = null;
 
 // 模拟不同股票的7天历史数据（日期和价格）
@@ -75,49 +27,6 @@ const stockHistory7DaysData = {
   }
   // 可继续扩展更多股票历史数据
 };
-
-function updateHistory7DaysChart(stockCode) {
-  const ctx = document.getElementById('history7DaysChart').getContext('2d');
-
-  // 如果stockCode为空或无数据，清空图表
-  if (!stockCode || !stockHistory7DaysData[stockCode]) {
-    if(history7DaysChart) {
-      history7DaysChart.destroy();
-      history7DaysChart = null;
-    }
-    return;
-  }
-
-  const data = stockHistory7DaysData[stockCode];
-
-  if(history7DaysChart) {
-    history7DaysChart.destroy();
-  }
-
-  history7DaysChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: data.labels,
-      datasets: [{
-        label: `${stockCode} Price`,
-        data: data.prices,
-        borderColor: 'blue',
-        backgroundColor: 'rgba(0,123,255,0.3)',
-        fill: true,
-        tension: 0.1
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: false
-        }
-      }
-    }
-  });
-}
 
 
 let dailyChart, historyChart, pieChart;
