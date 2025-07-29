@@ -33,11 +33,11 @@ const cardUrls = [
     // const usd = data.total;
 
     // 数据验证增强版
-    if (!data || typeof data.totalAssets !== 'number') {
+    if (!data || typeof data.total !== 'number') {
       throw new Error(`Invalid data: ${JSON.stringify(data)}`);
     }
     // 强制保留2位小数（兼容字符串/数字类型）
-    const usd = parseFloat(data.totalAssets).toFixed(2);
+    const usd = parseFloat(data.total).toFixed(2);
 
     const cny = usd * 7.3; // 汇率可改为动态来源
 
