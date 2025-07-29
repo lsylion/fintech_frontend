@@ -22,9 +22,7 @@ const cardUrls = [
       console.error('Failed to obtain total assets:', error);
       throw error; // 重新抛出错误以便外部处理
     }
-  }
-
-
+    }
 
   async function updateCard() {
   try {
@@ -52,8 +50,9 @@ const cardUrls = [
   }
 }
 
-
   // 页面加载时执行
+  // document.addEventListener('DOMContentLoaded', updateCard);
+ // 页面加载时执行
   // document.addEventListener('DOMContentLoaded', updateCard);
   document.addEventListener("DOMContentLoaded", async function () {
     try{
@@ -90,6 +89,10 @@ const cardUrls = [
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
+  }
+
+  function formatNumber(num) {
+    return num.toLocaleString("en-US");
   }
 
 
