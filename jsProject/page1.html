@@ -105,7 +105,7 @@
     }
 
     .sidebar-right {
-      width: 300px;
+      width: 350px;
       background-color: #f4f4f4;
       padding: 20px;
       box-sizing: border-box;
@@ -181,30 +181,7 @@
      font-weight: bold;
      color: #2c3e50;
     }
-
-
-    /* 搜索框样式 */
-     .search-box {
-      margin-bottom: 20px;
-    }
-    .search-box input {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    .search-result {
-      background: #fff;
-      border-radius: 8px;
-      padding: 10px;
-      margin-bottom: 20px;
-      min-height: 60px;
-      font-size: 16px;
-      color: #333;
-      border: 1px solid #ddd;
-    }
+    
 
     #stockBtn:hover, #bondsBtn:hover, #goldBtn:hover, #cashBtn:hover {
       background-color: #313436;
@@ -305,6 +282,64 @@
       background-color: rgba(255, 155, 192, 0.15);
       border-top: 4px solid #FF9BC0;
     }
+    .search-box {
+  display: flex;
+  flex-direction: column;  /* 让输入框和按钮容器上下排列 */
+  gap: 12px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+.search-box input[type="text"] {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+.search-btn,
+.clear-btn {
+  padding: 8px 14px;
+  font-size: 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  flex: 1 1 120px; /* 按钮最小宽度120px，允许缩放 */
+  max-width: 150px; /* 限制最大宽度 */
+  box-sizing: border-box;
+}
+
+.search-btn {
+  background-color: #3b7cc6;
+  color: white;
+}
+
+.search-btn:hover {
+  background-color: #345e99;
+}
+
+.clear-btn {
+  background-color: #ccc;
+  color: #333;
+}
+
+.clear-btn:hover {
+  background-color: #999;
+}
+
+
+
     @media (max-width: 768px) {
       .cards-container {
         grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -350,7 +385,7 @@
       <!-- 资产卡片区 -->
       <div class="cards-container">
         <!-- 总资产卡片 -->
-        <div class="card">
+        <div class="card" id = "assetCard">
           <div class="card-header">
             <h2 class="card-title">Total Assets</h2>
             <div class="profit-indicator profit">+</div>
@@ -419,17 +454,24 @@
     <div class="sidebar-right">
       <!-- <h3>Additional Information</h3> -->
       
-      <!--  新增搜索框功能-->
-       <div class="search-box">
-        <div id="searchResult" class="search-result">Quick Search
-        <input id="stockSearchInput" type="text" placeholder="Enter the stock code eg. WWW" /> 
-        </div>
-        <!--这里有点问题
-        <button id="searchBtn">搜索</button>
-        <button id="clearBtn">清除</button> -->
-      </div>
-      <div> <button id="clearBtn">clean</button>
-      </div>
+  <!-- 搜索框 -->
+<div class="search-box box">
+  <input id="stockSearchInput" type="text" placeholder="Enter stockcode e.g., WWW" />
+
+  <!-- 按钮容器放在输入框下方 -->
+  <div class="button-group">
+    <button id="searchBtn" class="search-btn">Search</button>
+    <button id="clearBtn" class="clear-btn">Clean</button>
+  </div>
+</div>
+
+<!-- 搜索结果 -->
+<div id="searchResult" class="search-result-box box">
+  <strong>Quick Search Results</strong>
+  <div id="searchOutput" class="search-output"></div>
+</div>
+
+
       
    
       <div class="box">
@@ -475,90 +517,10 @@
   };
 
 
-  //
-  //
-  //
-  // 放在 <script> 标签内，window.onload 之后
-  const cardUrls = [
-    'http://localhost:3000/totalAssets',
-    'https://your-api.com/total-profit',
-    'https://your-api.com/daily-surplus',
-    'https://your-api.com/market-value'
-  ];
-
-  async function fetchTotalAssets() {
-    try {
-      const response = await fetch('http://localhost:3000/totalAssets', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        // method: 'POST',
-        // body: JSON.stringify({ key: 'value' }) // 如果需要发送数据，可以在这里添加
-      });
-      if (!response.ok) throw new Error('Network response is abnormal');
-      return await response.json();
-    } catch (error) {
-      console.error('Failed to obtain total assets:', error);
-      throw error; // 重新抛出错误以便外部处理
-    }
-  }
-
-
-
-  // 使用示例
-  // async function updateCard() {
-  //   try {
-  //     const data = await fetchTotalAssets();
-  //     const totalAssetsElement = document.getElementById('totalAssets');
-  //     if (totalAssetsElement) {
-  //       totalAssetsElement.textContent = data.value;
-  //     }
-  //   } catch (error) {
-  //     const totalAssetsElement = document.getElementById('totalAssets');
-  //     if (totalAssetsElement) {
-  //       totalAssetsElement.textContent = '加载失败';
-  //     }
-  //   }
-  // }
-
-  // 页面加载时执行
-  // document.addEventListener('DOMContentLoaded', updateCard);
-  document.addEventListener("DOMContentLoaded", async function () {
-    try{
-    const data = await fetchTotalAssets();
-
-    if (!data || data.totalAssets === undefined) throw new Error('Countless data');
-
-    const usd = data.totalAssets;
-    const cny = usd * 7.3; // 假设汇率为 1 USD = 7.3 CNY
-
-    // 更新 DOM
-    document.getElementById('totalAssets').textContent = `$${formatNumber(usd)}`;
-    document.getElementById('totalRMB').textContent = `¥${formatNumber(cny.toFixed(2))}`;
-    }
-    catch (error) {
-      console.error('Failed to update the card:', error);
-      document.getElementById('totalAssets').textContent = 'Loading failed';
-      document.getElementById('totalRMB').textContent = 'Loading failed';
-    }
-  });
-
-  function formatNumber(num) {
-    return num.toLocaleString("en-US");
-  }
-
-
-    // 初始获取
-    fetchTotalAssets();
-
-
-  // // 每30秒刷新一次
-  // setInterval(fetchTotalAssets, 30000);
-
-
    </script>
 
   <script src="page1.js"></script>
+  <script src="fetchTotal.js"></script>
+  <script src="search.js"></script>
 </body>
 </html>
