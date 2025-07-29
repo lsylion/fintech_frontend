@@ -352,12 +352,12 @@
         <!-- 总资产卡片 -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">总资产</h2>
+            <h2 class="card-title">TotalAssets</h2>
             <div class="profit-indicator profit">+</div>
           </div>
           <div class="card-content">
-            <div class="balance-large" id = "totalAssets"> 0 </div>
-            <div class="balance-small">$2,14,595</div>
+            <div class="balance-large" id = "totalAssets">$ 0 </div>
+            <div class="balance-small" id = "totalRMB">¥ 0</div>
           </div>
         </div>
         <!-- 总盈亏卡片 -->
@@ -426,6 +426,8 @@
         <!--这里有点问题
         <button id="searchBtn">搜索</button>
         <button id="clearBtn">清除</button> -->
+      </div>
+      <div> <button id="clearBtn">clean</button>
       </div>
       
    
@@ -504,29 +506,40 @@
 
 
   // 使用示例
-  async function updateCard() {
-    try {
-      const data = await fetchTotalAssets();
-      const totalAssetsElement = document.getElementById('totalAssets');
-      if (totalAssetsElement) {
-        totalAssetsElement.textContent = data.value;
-      }
-    } catch (error) {
-      const totalAssetsElement = document.getElementById('totalAssets');
-      if (totalAssetsElement) {
-        totalAssetsElement.textContent = '加载失败';
-      }
-    }
-  }
+  // async function updateCard() {
+  //   try {
+  //     const data = await fetchTotalAssets();
+  //     const totalAssetsElement = document.getElementById('totalAssets');
+  //     if (totalAssetsElement) {
+  //       totalAssetsElement.textContent = data.value;
+  //     }
+  //   } catch (error) {
+  //     const totalAssetsElement = document.getElementById('totalAssets');
+  //     if (totalAssetsElement) {
+  //       totalAssetsElement.textContent = '加载失败';
+  //     }
+  //   }
+  // }
 
   // 页面加载时执行
   // document.addEventListener('DOMContentLoaded', updateCard);
   document.addEventListener("DOMContentLoaded", async function () {
+    try{
     const data = await fetchTotalAssets();
 
-    const totalAssetsElement = document.getElementById('totalAssets');
-    if (data && data.totalAssets !== undefined) {
-      totalAssetsElement.textContent =  `€${formatNumber(data.totalAssets)}`;
+    if (!data || data.totalAssets === undefined) throw new Error('Countless data');
+
+    const usd = data.totalAssets;
+    const cny = usd * 7.3; // 假设汇率为 1 USD = 7.3 CNY
+
+    // 更新 DOM
+    document.getElementById('totalAssets').textContent = `$${formatNumber(usd)}`;
+    document.getElementById('totalRMB').textContent = `¥${formatNumber(cny.toFixed(2))}`;
+    }
+    catch (error) {
+      console.error('Failed to update the card:', error);
+      document.getElementById('totalAssets').textContent = 'Loading failed';
+      document.getElementById('totalRMB').textContent = 'Loading failed';
     }
   });
 
