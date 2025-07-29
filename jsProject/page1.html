@@ -398,12 +398,12 @@
         <!-- 总盈亏卡片 -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">Total Profit & Loss</h2>
+            <h2 class="card-title" >Total Profit & Loss</h2>
             <div class="profit-indicator profit">+</div>
           </div>
           <div class="card-content">
-            <div class="balance-large">$ 0</div>
-            <div class="balance-small">¥ 0</div>
+            <div class="balance-large" id="profitUSD">$ 0</div>
+            <div class="balance-small" id="profitCNY">¥ 0</div>
           </div>
         </div>
         <!-- 每日盈余卡片 -->
@@ -413,8 +413,8 @@
             <div class="profit-indicator loss">-</div>
           </div>
           <div class="card-content">
-            <div class="balance-large">$ 0</div>
-            <div class="balance-small">¥ 0</div>
+            <div class="balance-large" id ="dailyUSD">$ 0</div>
+            <div class="balance-small" id ="dailyRMB">¥ 0</div>
           </div>
         </div>
         <!-- 总市值卡片 -->
@@ -424,9 +424,9 @@
             <div class="profit-indicator profit">+</div>
           </div>
           <div class="card-content">
-            <div class="balance-large">$ 0</div>
+            <div class="balance-large" id="marketUSD">$ 0</div>
             <!--这里显示增长率-->
-            <div class="balance-small"> 0 %</div>  
+            <div class="balance-small" id="marketRMB"> 0 %</div>  
           </div>
         </div>
       </div>
