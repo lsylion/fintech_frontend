@@ -24,13 +24,23 @@ const cardUrls = [
     }
   }
 
+
+
   async function updateCard() {
   try {
     const data = await fetchTotalAssets();
+    //
+    // if (!data || data.total === undefined) throw new Error('Missing data');
+    //
+    // const usd = data.total;
 
-    if (!data || data.totalAssets === undefined) throw new Error('Missing data');
+    // 数据验证增强版
+    if (!data || typeof data.totalAssets !== 'number') {
+      throw new Error(`Invalid data: ${JSON.stringify(data)}`);
+    }
+    // 强制保留2位小数（兼容字符串/数字类型）
+    const usd = parseFloat(data.totalAssets).toFixed(2);
 
-    const usd = data.totalAssets;
     const cny = usd * 7.3; // 汇率可改为动态来源
 
     document.getElementById('totalAssets').textContent = `$ ${formatNumber(usd)}`;
@@ -49,9 +59,10 @@ const cardUrls = [
     try{
     const data = await fetchTotalAssets();
 
-    if (!data || data.totalAssets === undefined) throw new Error('Countless data');
+    // if (!data || data.totalAssets === undefined) throw new Error('Countless data');
 
-    const usd = data.totalAssets;
+
+    const usd = data.total;
     const cny = usd * 7.3; // 假设汇率为 1 USD = 7.3 CNY
 
     // 更新 DOM
@@ -65,8 +76,20 @@ const cardUrls = [
     }
   });
 
+  // function formatNumber(num) {
+  //   return num.toLocaleString("en-US");
+  // }
+// 修改后的 formatNumber 函数（增加防御性处理）
   function formatNumber(num) {
-    return num.toLocaleString("en-US");
+    // 处理无效数字情况
+    const parsedNum = parseFloat(num);
+    if (isNaN(parsedNum)) return "--"; // 返回占位符
+
+    // 处理有效数字
+    return parsedNum.toLocaleString("en-US", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
   }
 
 
