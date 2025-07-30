@@ -250,12 +250,13 @@
       background-color: rgba(231, 76, 60, 0.15);
     }
     .card-content {
+      
+      font-size: 1.5rem;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
     }
     .balance-large {
-      font-size: 2.1rem;
       font-weight: 700;
       margin-bottom: 5px;
       letter-spacing: -0.5px;
@@ -387,8 +388,7 @@
         <!-- 总资产卡片 -->
         <div class="card" id = "assetCard">
           <div class="card-header">
-            <h2 class="card-title">Total Assets</h2>
-            <div class="profit-indicator profit">+</div>
+            <h2 class="card-title" style="line-height: 40px;">Total Assets</h2>
           </div>
           <div class="card-content">
             <div class="balance-large" id = "totalAssets">$ 0 </div>
@@ -398,54 +398,46 @@
         <!-- 总盈亏卡片 -->
         <div class="card">
           <div class="card-header">
-            <h2 class="card-title">Total Profit & Loss</h2>
-            <div class="profit-indicator profit">+</div>
+            <h2 class="card-title" >Total Profit & Loss</h2>
           </div>
           <div class="card-content">
-            <div class="balance-large">$ 0</div>
-            <div class="balance-small">¥ 0</div>
+            <div class="balance-large" id="profitUSD">$ 0</div>
+            <div class="balance-small" id="profitCNY">¥ 0</div>
           </div>
         </div>
         <!-- 每日盈余卡片 -->
         <div class="card">
           <div class="card-header">
             <h2 class="card-title">Daily Profit & Loss</h2>
-            <div class="profit-indicator loss">-</div>
           </div>
           <div class="card-content">
-            <div class="balance-large">$ 0</div>
-            <div class="balance-small">¥ 0</div>
+            <div class="balance-large" id ="dailyUSD">$ 0</div>
+            <div class="balance-small" id ="dailyCNY">¥ 0</div>
           </div>
         </div>
         <!-- 总市值卡片 -->
         <div class="card">
           <div class="card-header">
             <h2 class="card-title">Total Market Value</h2>
-            <div class="profit-indicator profit">+</div>
           </div>
           <div class="card-content">
-            <div class="balance-large">$ 0</div>
+            <div class="balance-large" id="marketUSD">$ 0</div>
             <!--这里显示增长率-->
-            <div class="balance-small"> 0 %</div>  
+            <div class="balance-small" id="marketCNY"> 0 %</div>  
           </div>
         </div>
       </div>
       <!-- 资产卡片区结束 -->
       <div class="chart-responsive" style="display: flex; flex-direction: column; align-items: stretch; width: 100%; height: 350px; min-height: 200px; max-height: 50vh; margin-bottom: 20px;">
         <div style="text-align: center; margin-bottom: 10px;">
-          <button id="dailyBtn">daily</button>
+          <!-- <button id="dailyBtn">daily</button> -->
           <button id="weeklyBtn">weekly</button>
           <button id="monthlyBtn">monthly</button>
         </div>
         <div style="flex: 1 1 0; position: relative; width: 100%; height: 100%;">
-          <canvas id="dailyChart" style="width:100%!important; height:100%!important; display:block;"></canvas>
-          <canvas id="weeklyChart" style="width:100%!important; height:100%!important; display:none;"></canvas>
-          <canvas id="monthlyChart" style="width:100%!important; height:100%!important; display:none;"></canvas>
+          <!-- <canvas id="dailyChart" style="width:100%!important; height:100%!important; display:block;"></canvas> -->
+          <canvas id="chartCanvas" style="width:100%!important; height:100%!important; display:block;"></canvas>
         </div>
-        <!-- <div class="box"> -->
-        <!-- <h2>股票历史7天数据</h2>
-        <canvas id="history7DaysChart" style="width: 100%; height: 20%"></canvas> -->
-      <!-- </div> -->
       </div>
     </div>
 
@@ -518,9 +510,10 @@
 
 
    </script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="page1.js"></script>
   <script src="fetchTotal.js"></script>
   <script src="search.js"></script>
+  <script src="lineChart.js"></script>
 </body>
 </html>
