@@ -1,5 +1,6 @@
 const RATE = 7.3;
 
+
 function formatNumber(num) {
   return num.toLocaleString("en-US");
 }
@@ -25,12 +26,14 @@ async function fetchDailyProfit() {
   return data.dailyProfitAndLoss;
 }
 
+
 // 4. 市值
 async function fetchMarketValue() {
   const res = await fetch("http://localhost:3000/marketValue");
   const data = await res.json();
   return data.totalMarketValue;
 }
+
 
 async function updateAllCards() {
   try {
@@ -53,12 +56,15 @@ async function updateAllCards() {
     document.getElementById('dailyUSD').textContent = `$ ${formatNumber(daily)}`;
     document.getElementById('dailyCNY').textContent = `¥ ${formatNumber((daily * RATE).toFixed(2))}`;
 
+
     // 更新市值卡
     document.getElementById('marketUSD').textContent = `$ ${formatNumber(market)}`;
     // document.getElementById('marketRate').textContent = `${market.rate}%`;
 
+
   } catch (err) {
     console.error('更新卡片失败:', err);
+
   }
 }
 
