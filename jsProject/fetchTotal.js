@@ -4,6 +4,28 @@ function formatNumber(num) {
   return num.toLocaleString("en-US");
 }
 
+// 获取当日金价
+ async function fetchGoldPrice() {
+    try {
+      const response = await fetch('http://localhost:3000/goldPriceToday');
+      if (!response.ok) throw new Error('网络错误');
+
+      const data = await response.json();
+      // 假设返回 { price: "1972.35" }
+      const priceElement = document.querySelector('.gold-price');
+      priceElement.textContent = `$${parseFloat(data.goldPrice).toFixed(2)}`;
+    } catch (error) {
+      console.error('获取金价失败:', error);
+      document.querySelector('.gold-price').textContent = '数据获取失败';
+    }
+  }
+
+  // 页面加载时立即调用一次
+  fetchGoldPrice();
+
+  // 每隔60秒刷新一次金价（可根据需求调整间隔）
+  setInterval(fetchGoldPrice, 60000);
+
 // 1. 总资产
 async function fetchTotalAssets() {
   const res = await fetch("http://localhost:3000/totalAssets");
