@@ -123,11 +123,7 @@
        padding-bottom: 10px; /* 增加内边距底部 */
       box-shadow: inset 0 -10px 10px -10px rgba(0, 0, 0, 0.1); /* 视觉底部阴影 */
     }
-    .stock-item {
-      padding: 5px 0;
-      border-bottom: 1px dashed #ccc;
-      font-size: 14px;
-    }
+
     .scroll-container {
      height: 200px;
      overflow: hidden;
@@ -492,8 +488,7 @@
           </div>
           <div class="card-content">
             <div class="balance-large" id="marketUSD">$ 0</div>
-            <!--这里显示增长率-->
-            <div class="balance-small" id="marketCNY"> 0 %</div>  
+            <div class="balance-small" id="marketCNY">¥ 0 </div>  
           </div>
         </div>
       </div>
@@ -506,7 +501,9 @@
         </div>
         <div style="flex: 1 1 0; position: relative; width: 100%; height: 100%;">
           <!-- <canvas id="dailyChart" style="width:100%!important; height:100%!important; display:block;"></canvas> -->
+           <canvas id="lineChartCanvas" style="width:100%!important; height:100%!important; display:none;"></canvas>
           <canvas id="chartCanvas" style="width:100%!important; height:100%!important; display:block;"></canvas>
+          
         </div>
       </div>
     </div>
@@ -518,7 +515,7 @@
       
   <!-- 搜索框 -->
 <div class="search-box box">
-  <input id="stockSearchInput" type="text" placeholder="Enter stockcode e.g., WWW" />
+  <input id="stockSearchInput" type="text" placeholder="Enter stockcode e.g. AAPL" />
 
   <!-- 按钮容器放在输入框下方 -->
   <div class="button-group">
@@ -577,7 +574,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="page1.js"></script>
   <script src="fetchTotal.js"></script>
-  <script src="search.js"></script>
+  <script type="module" src="search.js"></script>
   <script src="lineChart.js"></script>
   <script src="stock_bonds_scroll.js"></script>
 </body>

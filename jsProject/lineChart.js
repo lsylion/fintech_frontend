@@ -1,16 +1,30 @@
 let chartInstance = null;
-let weeklyPnL = [], monthlyPnL = [];
-let weeklyMV = [], monthlyMV = [];
+let weeklyPnL = [], monthlyPnL = [];// P&L历史数据
+let weeklyMV = [], monthlyMV = [];// marketvalue历史数据
+let weeklyMD = [], monthlyMD = [];//total assets历史数据
 let isMonthly = false;
 let activeChartType = "pnl"; // "pnl" 或 "market"
 
-function renderActiveChart() {
-  const dataSet = isMonthly
-    ? (activeChartType === "pnl" ? monthlyPnL : monthlyMV)
-    : (activeChartType === "pnl" ? weeklyPnL : weeklyMV);
 
-  const label = `${isMonthly ? "Monthly" : "Weekly"} ${activeChartType === "pnl" ? "Profit & Loss" : "Market Value"}`;
-  const field = activeChartType === "pnl" ? "profitLoss" : "totalMarketValue";
+function renderActiveChart() {
+  let dataSet = [];
+  let label = "";
+  let field = "";
+
+  if (activeChartType === "pnl") {
+    dataSet = isMonthly ? monthlyPnL : weeklyPnL;
+    label = `${isMonthly ? "Monthly" : "Weekly"} Profit & Loss`;
+    field = "profitLoss";
+  } else if (activeChartType === "market") {
+    dataSet = isMonthly ? monthlyMV : weeklyMV;
+    label = `${isMonthly ? "Monthly" : "Weekly"} Market Value`;
+    field = "totalMarketValue";
+  }  else if (activeChartType === "total") {
+     dataSet = isMonthly ? monthlyMD : weeklyMD; // ← 修改这里
+     label = `${isMonthly ? "Monthly" : "Weekly"} Total Assets`;
+     field = "close";
+  }
+
 
   const ctx = document.getElementById("chartCanvas").getContext("2d");
   if (chartInstance) chartInstance.destroy();
@@ -22,8 +36,8 @@ function renderActiveChart() {
       datasets: [{
         label: label,
         data: dataSet.map(d => parseFloat(d[field])),
-        borderColor: "rgba(54, 162, 235, 1)",
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
+        borderColor: "rgba(75, 192, 192, 1)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
         fill: true,
         tension: 0.3
       }]
@@ -42,18 +56,25 @@ function renderActiveChart() {
   });
 }
 
+
 async function fetchData() {
-  const [pnlW, pnlM, mvW, mvM] = await Promise.all([
+  const [pnlW, pnlM, mvW, mvM, mdAll] = await Promise.all([
     fetch("http://localhost:3000/weeklyProfitAndLoss").then(res => res.json()),
     fetch("http://localhost:3000/monthlyProfitAndLoss").then(res => res.json()),
     fetch("http://localhost:3000/weeklyMarketValue").then(res => res.json()),
-    fetch("http://localhost:3000/monthlyMarketValue").then(res => res.json())
+    fetch("http://localhost:3000/monthlyMarketValue").then(res => res.json()),
+    fetch("http://localhost:3000/weeklyMarketData").then(res => res.json())
   ]);
 
   weeklyPnL = pnlW.weeklyProfitAndLoss || [];
   monthlyPnL = pnlM.monthlyProfitAndLoss || [];
   weeklyMV = mvW.weeklyMarketValue || [];
   monthlyMV = mvM.monthlyMarketValue || [];
+  
+ // ✅ 正确使用 mdAll
+  const marketData = mdAll.marketData || mdAll; // 有些接口直接返回数组，有些包在对象里
+  monthlyMD = marketData;
+  weeklyMD = marketData.slice(-8,-); // 取最后 7 条数据作为 weekly 数据
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -85,4 +106,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     activeChartType = "market";
     renderActiveChart();
   });
+  document.getElementById("assetCard").addEventListener("click", () => {
+  activeChartType = "total";
+  renderActiveChart();
+});
+
 });
