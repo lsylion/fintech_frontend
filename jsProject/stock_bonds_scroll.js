@@ -26,23 +26,23 @@
   // 股票格式化函数
   function formatStocks(data) {
     return data.slice(0, 10).map(stock =>
-      `${stock.symbol} - ${stock.name} | Open: ${stock.open} | Close: ${stock.close}`
+      `${stock.symbol}\nOpen: ${stock.open}\nClose: ${stock.close}`
     );
   }
 
-  // 债券格式化函数
-  function formatBonds(data) {
-    return data.top10Bonds.map(bond =>
-      `${bond.symbol}: ${parseFloat(bond.close).toFixed(4)}`
+ function formatBonds(data) {
+  return data.top10Bonds
+    .filter(bond => /^[A-Za-z]/.test(bond.symbol.replace(/^(\^)/, "")))
+    .map(bond =>
+      `${bond.symbol.replace(/^(\^)/, "")}: ${parseFloat(bond.close).toFixed(4)}`
     );
-  }
+}
 
-  // 按钮绑定事件
-  document.getElementById('stockBtn').addEventListener('click', () => {
-    fetchAndRender('http://localhost:3000/todayStockData', 'scrollListStocks', formatStocks);
-  });
 
-  document.getElementById('bondsBtn').addEventListener('click', () => {
-    fetchAndRender('http://localhost:3000/top10Bonds', 'scrollListBonds', formatBonds);
-  });
+
+  window.addEventListener("DOMContentLoaded", () => {
+  // 页面加载完成时自动加载 Stocks 和 Bonds 数据
+  fetchAndRender('http://localhost:3000/todayStockData', 'scrollListStocks', formatStocks);
+  fetchAndRender('http://localhost:3000/top10Bonds', 'scrollListBonds', formatBonds);
+});
 

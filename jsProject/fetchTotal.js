@@ -81,7 +81,7 @@ async function updateAllCards() {
 
     // 更新市值卡
     document.getElementById('marketUSD').textContent = `$ ${formatNumber(market)}`;
-    // document.getElementById('marketRate').textContent = `${market.rate}%`;
+    document.getElementById('marketCNY').textContent = `¥ ${formatNumber((market * RATE).toFixed(2))}`
 
 
   } catch (err) {
